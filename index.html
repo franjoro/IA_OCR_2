@@ -45,9 +45,26 @@
         <div class="row">
           <div class="col-12">
             <table class="table">
-              <tr>
-                <td>Modelo</td>
-              </tr>
+              <thead>
+                <tr>
+                  <th>Modelo</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Modelo v1</td>
+                  <td id="r1"></td>
+                </tr>
+                <tr>
+                  <td>Modelo v2 - 20 epocas</td>
+                  <td id="r2"></td>
+                </tr>
+                <tr>
+                  <td>Modelo v2 - 50 epocas</td>
+                  <td id="r3"></td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -112,13 +129,14 @@
             var resultados50 = modelo50.predict(tensor4).dataSync();
             var mayorIndice50 = resultados50.indexOf(Math.max.apply(null, resultados50));
 
-            // 
             var resultadosv1 = modelov1.predict(tensor4).dataSync();
             var mayorIndicev1 = resultadosv1.indexOf(Math.max.apply(null, resultadosv1));
             
-            document.getElementById("resultado20").innerHTML = get_letter(mayorIndice20);
-            document.getElementById("resultado50").innerHTML = get_letter(mayorIndicev1);
-            document.getElementById("resultadosv1").innerHTML = get_letter(mayorIndice50);
+            console.log(resultados50);
+
+            document.getElementById("r1").innerHTML = get_letter(mayorIndicev1);
+            document.getElementById("r2").innerHTML = get_letter(mayorIndice20);
+            document.getElementById("r3").innerHTML = get_letter(mayorIndice50);
         }
 
         /**
@@ -219,9 +237,9 @@
       //Cargar modelo
       (async () => {
           console.log("Cargando modelo...");
+          modelov1 = await tf.loadLayersModel("models/model_v1/model.json");
           modelo20 = await tf.loadLayersModel("models/model_20/model.json");
           modelo50 = await tf.loadLayersModel("models/model_50/model.json");
-          modelov1 = await tf.loadLayersModel("models/model_v1/model.json");
           console.log("Modelo cargado...");
       })();
     </script>
