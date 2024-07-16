@@ -53,15 +53,23 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Modelo v1</td>
+                  <td>Modelo v1 CL - 20 épocas </td>
+                  <td id="r1c"></td>
+                </tr>
+                <tr>
+                  <td>Modelo v1 CNN - 20 épocas </td>
                   <td id="r1"></td>
                 </tr>
                 <tr>
-                  <td>Modelo v2 - 20 epocas</td>
+                  <td>Modelo v1 CNN - 50 épocas</td>
+                  <td id="r4"></td>
+                </tr>
+                <tr>
+                  <td>Modelo v2 CNN - 20 épocas</td>
                   <td id="r2"></td>
                 </tr>
                 <tr>
-                  <td>Modelo v2 - 50 epocas</td>
+                  <td>Modelo v2 CNN- 50 épocas</td>
                   <td id="r3"></td>
                 </tr>
               </tbody>
@@ -131,12 +139,25 @@
 
             var resultadosv1 = modelov1.predict(tensor4).dataSync();
             var mayorIndicev1 = resultadosv1.indexOf(Math.max.apply(null, resultadosv1));
+
+            var resultadosv150 = modelov150.predict(tensor4).dataSync();
+            var mayorIndicev150 = resultadosv150.indexOf(Math.max.apply(null, resultadosv150));
+
+
+            var resultadoscl = modelocl.predict(tensor4).dataSync();
+            var mayorIndicecl = resultadoscl.indexOf(Math.max.apply(null, resultadoscl));
             
+            console.log(resultados20);
             console.log(resultados50);
+            console.log(resultadosv1);
+            console.log(mayorIndicev150);
+            console.log(mayorIndicecl);
 
             document.getElementById("r1").innerHTML = get_letter(mayorIndicev1);
             document.getElementById("r2").innerHTML = get_letter(mayorIndice20);
             document.getElementById("r3").innerHTML = get_letter(mayorIndice50);
+            document.getElementById("r4").innerHTML = get_letter(mayorIndicev150);
+            document.getElementById("r1c").innerHTML = get_letter(mayorIndicecl);
         }
 
         /**
@@ -238,8 +259,10 @@
       (async () => {
           console.log("Cargando modelo...");
           modelov1 = await tf.loadLayersModel("models/model_v1/model.json");
+          modelov150 = await tf.loadLayersModel("models/model_v150/model.json");
           modelo20 = await tf.loadLayersModel("models/model_20/model.json");
           modelo50 = await tf.loadLayersModel("models/model_50/model.json");
+          modelocl = await tf.loadLayersModel("models/model_cl/model.json");
           console.log("Modelo cargado...");
       })();
     </script>
